@@ -12,6 +12,7 @@ var score = 0;
 var count = 75;
 var alert =document.getElementById("alert");
 var info = document.getElementById("info");
+var timeinterval=document.getElementById("timeinterval")
 
 var allScores = [];
 var storedScores = JSON.parse(localStorage.getItem("userData"));
@@ -57,6 +58,7 @@ function starQuiz(){
         displayQuestion(nextQuestions)
 
     gameTime()
+    document.getElementById('btn-start').style.display ="none"
 }
 btnScore.addEventListener("click" , function(){
     let name = document.getElementById("inputScore").value
@@ -65,12 +67,20 @@ btnScore.addEventListener("click" , function(){
 
 
 function gameTime(){
+var timeinterval = setInterval(function(){
+    timer.innerText = count
+    count--;
+    if (count <= 0) {
+        endGame()
+        document.getElementById('timecounter').style.display ="none"
+        clearInterval(timeinterval)
+    }
 
-    var timeinterval = setInterval(function(){
-        timer.innerText = count
-         count--;
-        }, 1000);
+     
+    
+},1000);
 
+ 
 }
 
 function scorePage(a, b) {
@@ -137,12 +147,13 @@ function correction(response){
         }, 1000);
 
 }
- function endGame (){
+function endGame (){
     myScore.innerText = count
     addscore.classList.remove("d-none")
     timeCounter.classList.add("d-none")
     quizQuestions.classList.add("d-none")
     addscore.classList.remove("d-none")
+    document.getElementById("addscore").style.display="block"
+    clearInterval(timeinterval)
+}
 
-
- }
